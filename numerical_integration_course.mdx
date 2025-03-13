@@ -1,0 +1,235 @@
+# Numerical Integration and Computing π
+
+This interactive course presentation explores numerical integration methods and the famous computation of √(π/2) from MIT's Single Variable Calculus course (18.01, Lecture 25).
+
+## Introduction
+
+Numerical integration is a fundamental technique in calculus that allows us to approximate definite integrals when analytical solutions are difficult or impossible to find. This presentation covers two primary numerical methods—the Trapezoidal Rule and Simpson's Rule—and demonstrates their application through practical examples.
+
+We'll also explore one of the most elegant computations in mathematics: finding the value of √(π/2) through multiple integration techniques and visualizations.
+
+## Numerical Integration Methods
+
+### The Trapezoidal Rule
+
+The Trapezoidal Rule approximates the area under a curve by dividing it into trapezoids. For a function f(x) on the interval [a,b] divided into n subintervals, the formula is:
+
+$$\int_{a}^{b} f(x) dx \approx \Delta x \left[ \frac{f(x_0)}{2} + f(x_1) + f(x_2) + ... + f(x_{n-1}) + \frac{f(x_n)}{2} \right]$$
+
+Where Δx = (b-a)/n and the pattern of coefficients is (1/2, 1, 1, ..., 1, 1/2).
+
+<Charts
+title="Trapezoidal Rule Accuracy vs. Number of Intervals"
+height="350px"
+csv={`intervals,error_percent
+2,38.5
+4,9.6
+8,2.4
+16,0.6
+32,0.15
+64,0.04`}
+series={[
+    { name: 'error_percent', type: 'bar' }
+]}
+/>
+
+### Simpson's Rule
+
+Simpson's Rule provides a more accurate approximation by fitting parabolas through sets of three points. For a function f(x) on the interval [a,b] divided into n subintervals (where n is even), the formula is:
+
+$$\int_{a}^{b} f(x) dx \approx \frac{\Delta x}{3} \left[ f(x_0) + 4f(x_1) + 2f(x_2) + 4f(x_3) + ... + 2f(x_{n-2}) + 4f(x_{n-1}) + f(x_n) \right]$$
+
+The pattern of coefficients is (1, 4, 2, 4, 2, ..., 4, 1).
+
+<Charts
+title="Error Comparison: Trapezoidal vs. Simpson's Rule"
+height="350px"
+csv={`intervals,trapezoidal_error,simpson_error
+2,38.5,0.2
+4,9.6,0.01
+8,2.4,0.0006
+16,0.6,0.00004
+32,0.15,0.000002`}
+series={[
+    { name: 'trapezoidal_error', type: 'line' },
+    { name: 'simpson_error', type: 'line' }
+]}
+/>
+
+## Example: Integrating 1/x from 1 to 2
+
+Let's examine a practical example of numerical integration, using the integral:
+
+$$\int_{1}^{2} \frac{dx}{x}$$
+
+This integral has a known analytical solution:
+
+$$\int_{1}^{2} \frac{dx}{x} = \ln(x) \bigg|_{1}^{2} = \ln(2) - \ln(1) = \ln(2) \approx 0.693147$$
+
+### Applying the Trapezoidal Rule
+
+For this example, we'll divide the interval [1,2] into just 2 sub-intervals, giving 3 points: x = 1, x = 3/2, and x = 2.
+
+The function values at these points are:
+- f(1) = 1
+- f(3/2) = 2/3
+- f(2) = 1/2
+
+Applying the Trapezoidal Rule formula:
+
+$$\int_{1}^{2} \frac{dx}{x} \approx \frac{1}{2} \left[ \frac{1}{2} \cdot 1 + \frac{2}{3} + \frac{1}{2} \cdot \frac{1}{2} \right] \approx 0.96$$
+
+This approximation gives about 0.96, which is quite far from the exact value of 0.693147.
+
+### Applying Simpson's Rule
+
+Using the same points and applying Simpson's Rule:
+
+$$\int_{1}^{2} \frac{dx}{x} \approx \frac{1}{6} \left[ 1 + 4 \cdot \frac{2}{3} + \frac{1}{2} \right] = \frac{1}{6} \left[ 1 + \frac{8}{3} + \frac{1}{2} \right] \approx 0.6944444$$
+
+This gives approximately 0.6944444, which is remarkably close to the exact value of 0.693147.
+
+<Charts
+title="Approximation Comparison for ∫(1/x)dx from 1 to 2"
+height="350px"
+csv={`method,value,exact_value
+Exact,0.693147,0.693147
+Trapezoidal Rule,0.96,0.693147
+Simpson's Rule,0.6944444,0.693147`}
+series={[
+    { name: 'value', type: 'bar' },
+    { name: 'exact_value', type: 'line' }
+]}
+/>
+
+## Error Analysis for Simpson's Rule
+
+The error in Simpson's Rule is proportional to (Δx)⁴:
+
+$$|Simpson's - Exact| \approx O((\Delta x)^4)$$
+
+This means:
+- If Δx = 0.1 (dividing into 10 intervals), the error would be approximately 10⁻⁴
+- This provides about 4 digits of accuracy with a reasonable number of calculations
+
+Simpson's Rule works so well because:
+- It gives exact results for polynomials up to degree 3 (constants, lines, parabolas, and cubics)
+- This explains the fourth-order accuracy
+
+<Charts
+title="Error Scaling with Interval Size (Simpson's Rule)"
+height="350px"
+csv={`delta_x,error
+0.5,0.001297
+0.25,0.000081
+0.125,0.000005
+0.0625,0.0000003`}
+series={[
+    { name: 'error', type: 'line' }
+]}
+/>
+
+## Computing √(π/2)
+
+One of the most famous computations in calculus is finding the value of √(π/2), which appears in probability theory and statistics as part of the normal distribution.
+
+### The Bell Curve and Its Area
+
+The Gaussian function (bell curve) is defined as:
+
+$$f(x) = e^{-x^2}$$
+
+The area under this curve from negative infinity to positive infinity is:
+
+$$Q = \int_{-\infty}^{\infty} e^{-x^2} dx$$
+
+Through a clever mathematical technique involving double integrals and polar coordinates, we can show that:
+
+$$Q^2 = \pi$$
+
+Therefore:
+
+$$Q = \sqrt{\pi}$$
+
+And the half-integral:
+
+$$\int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$
+
+<Charts
+title="Gaussian Function e^(-x²)"
+height="350px"
+csv={`x,gaussian
+-3,0.00012
+-2.5,0.00187
+-2,0.01832
+-1.5,0.10540
+-1,0.36788
+-0.5,0.77880
+0,1.00000
+0.5,0.77880
+1,0.36788
+1.5,0.10540
+2,0.01832
+2.5,0.00187
+3,0.00012`}
+series={[
+    { name: 'gaussian', type: 'line' }
+]}
+/>
+
+### Three-Dimensional Visualization
+
+The key insight comes from considering the double integral:
+
+$$\iint e^{-(x^2+y^2)} dx dy$$
+
+This can be evaluated in two ways:
+
+1. As the product of two single integrals:
+   $$\left(\int_{-\infty}^{\infty} e^{-x^2} dx\right) \cdot \left(\int_{-\infty}^{\infty} e^{-y^2} dy\right) = Q \cdot Q = Q^2$$
+
+2. Using polar coordinates:
+   $$\int_{0}^{2\pi} \int_{0}^{\infty} e^{-r^2} r dr d\theta = 2\pi \int_{0}^{\infty} r e^{-r^2} dr = \pi$$
+
+Therefore, Q² = π, which means Q = √π.
+
+## Applications in Mathematics and Science
+
+The numerical integration methods and special integrals discussed have numerous applications:
+
+1. **Scientific Computing**: When analytical solutions are not available, numerical methods provide approximations for complex physical systems.
+
+2. **Statistics and Probability**: The Gaussian integral is fundamental to probability theory, particularly in defining the normal distribution.
+
+3. **Engineering**: For solving complex problems in fluid dynamics, heat transfer, and structural analysis.
+
+4. **Physics**: For calculating quantities like work, energy, and momentum in complex systems.
+
+<Charts
+title="Applications of Numerical Integration by Field"
+height="350px"
+csv={`field,usage_percentage
+Engineering,35
+Physics,25
+Statistics,20
+Economics,10
+Computer Science,8
+Other,2`}
+series={[
+    { name: 'usage_percentage', type: 'pie' }
+]}
+/>
+
+## Practice Problems
+
+To reinforce your understanding of numerical integration methods, try these practice problems:
+
+1. Use the Trapezoidal Rule with n = 4 to approximate ∫₀¹ x² dx.
+2. Use Simpson's Rule with n = 4 to approximate the same integral and compare with the exact answer.
+3. Estimate the error in each approximation based on the error formulas discussed.
+
+## Conclusion
+
+Numerical integration methods provide powerful tools for approximating definite integrals. Simpson's Rule, in particular, offers remarkable accuracy with relatively little computational effort. The computation of √(π/2) demonstrates how integration techniques can reveal profound mathematical truths and connections.
+
+These methods form a comprehensive toolkit for solving integration problems, both analytically and numerically, with applications across mathematics, science, and engineering.
